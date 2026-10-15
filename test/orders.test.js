@@ -1,0 +1,12 @@
+const assert = require('assert');
+const { normalizeOrderId, getOrderDetails, cancelOrder, checkReturnEligibility } = require('../lib/orders');
+assert.strictEqual(normalizeOrderId('ord 101'), 'ORD-101');
+assert.strictEqual(normalizeOrderId('O R D one zero two'), 'ORD-102');
+assert.strictEqual(normalizeOrderId('hello'), null);
+assert.strictEqual(getOrderDetails('ORD-999').found, false);
+assert.strictEqual(getOrderDetails('').found, false);
+assert.strictEqual(getOrderDetails('ORD-101').cancellable, false);
+assert.strictEqual(cancelOrder('ORD-101').success, false);
+assert.strictEqual(cancelOrder('ORD-103').success, true);
+assert.strictEqual(checkReturnEligibility('ORD-102').return_window_ok, false);
+console.log('orders: all tests passed');
